@@ -1,6 +1,6 @@
 {
   "name": "@herdwatch/sentry-cordova",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "main": "dist/js/sentry-cordova.js",
   "types": "dist/js/sentry-cordova.d.ts",
   "license": "MIT",
