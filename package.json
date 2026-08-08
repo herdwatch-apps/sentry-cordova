@@ -1,10 +1,12 @@
 {
   "name": "@herdwatch/sentry-cordova",
-  "version": "1.6.5",
+  "version": "1.7.3",
   "main": "dist/js/sentry-cordova.js",
   "types": "dist/js/sentry-cordova.d.ts",
   "license": "MIT",
-  "repository": "git://github.com/getsentry/sentry-cordova.git",
+  "repository": "git://github.com/herdwatch-apps/sentry-cordova.git",
+  "homepage": "https://github.com/herdwatch-apps/sentry-cordova#readme",
+  "bugs": "https://github.com/herdwatch-apps/sentry-cordova/issues",
   "cordova": {
     "id": "@herdwatch/sentry-cordova",
     "platforms": [
