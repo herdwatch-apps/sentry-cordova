@@ -1,3 +1,13 @@
+## Why this fork exists
+
+Forked from [upstream](https://github.com/getsentry/sentry-cordova) because Sentry archived it and no longer maintains it (see the notice below) — we still need it for error reporting on Cordova/Ionic, so we keep it compatible with current native Sentry SDKs ourselves and publish under the `@herdwatch` npm scope.
+
+Published as [`@herdwatch/sentry-cordova`](https://www.npmjs.com/package/@herdwatch/sentry-cordova).
+
+Changes from upstream:
+- Bumped the native `sentry-cocoa` dependency and fixed the resulting iOS build break (`SentryOptions+HybridSDKs` category was replaced with `SentryOptionsInternal` in newer `sentry-cocoa` releases).
+- Republished under the `@herdwatch/sentry-cordova` npm scope.
+
 <p align="center">
   <a href="https://sentry.io/?utm_source=github&utm_medium=logo" target="_blank">
       <img src="https://sentry-brand.storage.googleapis.com/sentry-wordmark-dark-280x84.png" alt="Sentry" width="280" height="84">
