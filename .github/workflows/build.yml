@@ -169,7 +169,7 @@ jobs:
         with:
           name: ${{ github.sha }}
           path: |
-            ${{ github.workspace }}/sentry-cordova-*
+            ${{ github.workspace }}/herdwatch-sentry-cordova-*
 
   job_check_symlink:
     name: Check for Symbolic Links
