@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
-      - run: npm publish artifact/herdwatch-sentry-cordova-*.tgz --access public --tag latest
+      - run: npm publish ./artifact/herdwatch-sentry-cordova-*.tgz --access public --tag latest
 
   # Manual fallback for republishing an already-released version (e.g. after a registry issue)
   # without pushing a new commit -- has no Build & Test artifact to reuse, so builds from scratch.
