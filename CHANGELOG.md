@@ -6,6 +6,7 @@
 
 - Fixes memory leak on the Native SDK. ([#406](https://github.com/getsentry/sentry-cordova/pull/406))
 - Bring in the real fork source, document reason, add publish workflow ([#2](https://github.com/herdwatch-apps/sentry-cordova/pull/2))
+- Build Carthage deps before npm publish, so the `prepack` symlink-resolve script has `src/ios/Carthage/Build` to work with ([#4](https://github.com/herdwatch-apps/sentry-cordova/pull/4))
 
 ## 1.7.3
 
