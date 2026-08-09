@@ -6,6 +6,7 @@
 
 - Fixes memory leak on the Native SDK. ([#406](https://github.com/getsentry/sentry-cordova/pull/406))
 - Bring in the real fork source, document reason, add publish workflow ([#2](https://github.com/herdwatch-apps/sentry-cordova/pull/2))
+- Quote `run-name` expressions so `#`/`: ` in the interpolated text can't be misread as a YAML comment or mapping key, which was breaking `build.yml` and `codeql-analysis.yml` outright (0 jobs scheduled) and silently dropping `danger.yml`'s custom run name; also bump `codeql-action` from the deprecated v1 to v3 ([#5](https://github.com/herdwatch-apps/sentry-cordova/pull/5))
 - Build Carthage deps before npm publish, so the `prepack` symlink-resolve script has `src/ios/Carthage/Build` to work with ([#4](https://github.com/herdwatch-apps/sentry-cordova/pull/4))
 
 ## 1.7.3
