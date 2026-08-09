@@ -1,5 +1,5 @@
 name: 'Danger'
-run-name: PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }} — run ${{ github.run_number }}
+run-name: "PR #${{ github.event.pull_request.number }}: ${{ github.event.pull_request.title }} — run ${{ github.run_number }}"
 on:
   pull_request:
     types: [opened, synchronize, reopened, edited, ready_for_review]

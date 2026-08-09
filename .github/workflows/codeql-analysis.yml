@@ -10,7 +10,7 @@
 # supported CodeQL languages.
 #
 name: "CodeQL"
-run-name: ${{ github.event_name == 'pull_request' && format('PR #{0}: {1} — run {2}', github.event.pull_request.number, github.event.pull_request.title, github.run_number) || (github.event_name == 'schedule' && format('Scheduled scan — run {0}', github.run_number) || github.event.head_commit.message) }}
+run-name: "${{ github.event_name == 'pull_request' && format('PR #{0}: {1} — run {2}', github.event.pull_request.number, github.event.pull_request.title, github.run_number) || (github.event_name == 'schedule' && format('Scheduled scan — run {0}', github.run_number) || github.event.head_commit.message) }}"
 
 on:
   push:
@@ -36,11 +36,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v2
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -51,7 +51,7 @@ jobs:
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v1
+      uses: github/codeql-action/autobuild@v3
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
@@ -65,4 +65,4 @@ jobs:
     #   make release
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v3
