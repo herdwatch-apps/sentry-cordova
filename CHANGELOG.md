@@ -8,6 +8,7 @@
 - Bring in the real fork source, document reason, add publish workflow ([#2](https://github.com/herdwatch-apps/sentry-cordova/pull/2))
 - Quote `run-name` expressions so `#`/`: ` in the interpolated text can't be misread as a YAML comment or mapping key, which was breaking `build.yml` and `codeql-analysis.yml` outright (0 jobs scheduled) and silently dropping `danger.yml`'s custom run name; also bump `codeql-action` from the deprecated v1 to v3 ([#5](https://github.com/herdwatch-apps/sentry-cordova/pull/5))
 - Build Carthage deps before npm publish, so the `prepack` symlink-resolve script has `src/ios/Carthage/Build` to work with ([#4](https://github.com/herdwatch-apps/sentry-cordova/pull/4))
+- Stop `Publishing` from redoing `Build & Test`'s `yarn install`/`yarn build`/Carthage build (~10min) on every push; it now waits for `Build & Test` to succeed and publishes the exact artifact that job already built and symlink-checked. Also fixes the latent issue where a push-triggered publish could succeed even if `Build & Test`'s tests later failed, since the two ran independently off the same `push` event. `workflow_dispatch` keeps the old from-scratch build path for manually republishing without a new commit. ([#6](https://github.com/herdwatch-apps/sentry-cordova/pull/6))
 
 ## 1.7.3
 
