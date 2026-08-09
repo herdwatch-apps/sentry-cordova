@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="@herdwatch/sentry-cordova" version="1.7.3">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="@herdwatch/sentry-cordova" version="1.7.3-fix.1">
     <name>Sentry</name>
     <author>Sentry</author>
     <description>Official Sentry SDK for Cordova</description>
@@ -24,7 +24,7 @@
     <js-module src="dist/js/sentry-cordova.bundle.min.js" name="Sentry">
         <clobbers target="Sentry" />
     </js-module>
-    <asset src="dist/js/sentry-cordova.bundle.min.js.map" target="plugins/sentry-cordova/dist/js/sentry-cordova.bundle.min.js.map" />
+    <asset src="dist/js/sentry-cordova.bundle.min.js.map" target="plugins/@herdwatch/sentry-cordova/dist/js/sentry-cordova.bundle.min.js.map" />
     <!-- android -->
     <platform name="android">
       <config-file target="res/xml/config.xml" parent="/*">
@@ -67,9 +67,16 @@
         </js-module>
     </platform> -->
 
-    <hook type="after_plugin_add" src="scripts/plugin_add_rm.js" />
-    <hook type="after_platform_add" src="scripts/plugin_add_rm.js" />
-    <hook type="before_plugin_rm" src="scripts/plugin_add_rm.js" />
+    <!-- plugin_add_rm.js launches the interactive @sentry/wizard setup flow, which
+         hangs/errors in automated CI and isn't needed by consumers who configure
+         Sentry themselves (e.g. via env-specific config rather than sentry.properties). -->
+    <!--    <hook type="after_plugin_add" src="scripts/plugin_add_rm.js" />-->
+    <!--    <hook type="after_platform_add" src="scripts/plugin_add_rm.js" />-->
+    <!--    <hook type="before_plugin_rm" src="scripts/plugin_add_rm.js" />-->
 
-    <hook type="before_compile" src="scripts/before_compile.js" />
+    <!-- before_compile.js calls process.exit(1) if sentry.properties is missing from
+         the project root, hard-failing every build for consumers who don't use that
+         file (SENTRY_SKIP_AUTO_RELEASE only skips the sentry-cli release step, not
+         this check). -->
+    <!--    <hook type="before_compile" src="scripts/before_compile.js" />-->
 </plugin>
