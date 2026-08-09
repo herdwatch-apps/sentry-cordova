@@ -1,8 +1,10 @@
 name: Publishing
-run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual publish — run {0}', github.run_number) || github.event.head_commit.message }}"
+run-name: "${{ github.event_name == 'workflow_dispatch' && format('Manual publish — run {0}', github.run_number) || format('Publish Build & Test run {0}', github.event.workflow_run.run_number) }}"
 
 on:
-  push:
+  workflow_run:
+    workflows: ['Build & Test']
+    types: [completed]
     branches:
       - main
   workflow_dispatch:
@@ -12,7 +14,29 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  # Build & Test already built, packed and symlink-checked this exact commit -- reuse that
+  # artifact instead of rebuilding (yarn install/build + the ~10min Carthage build) a second time.
+  publish-from-build:
+    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download built package
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+          name: ${{ github.event.workflow_run.head_sha }}
+          path: artifact
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish artifact/herdwatch-sentry-cordova-*.tgz --access public --tag latest
+
+  # Manual fallback for republishing an already-released version (e.g. after a registry issue)
+  # without pushing a new commit -- has no Build & Test artifact to reuse, so builds from scratch.
+  publish-manual:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v7
