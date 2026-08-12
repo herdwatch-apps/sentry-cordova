@@ -2,4 +2,4 @@ build:
 	cd src/ios && \
   carthage update --use-xcframeworks --platform ios && \
   EXCLUDED_ARCHS=arm64e carthage build --use-xcframeworks --no-use-binaries --platform ios && \
-  rm -r Carthage/Build/SentrySwiftUI.xcframework
+  find Carthage/Build -maxdepth 1 -name '*.xcframework' ! -name 'Sentry.xcframework' -exec rm -rf {} +
