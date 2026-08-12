@@ -8,6 +8,9 @@ Based on upstream `v1.7.3`. Changes from upstream:
 - Upgraded the JS-side Sentry SDK dependency from v7 (`@sentry/core@7.119.1`) to v8 (`@sentry/core@8.55.0`) — upstream's own `main` is still on v7. This meant rewriting every import that used to come from the now-retired `@sentry/types`/`@sentry/utils` packages, since v8 consolidated them into `@sentry/core`.
 - Bumped the native `sentry-cocoa` dependency ahead of upstream's own pin and fixed the resulting iOS build break (`SentryOptions+HybridSDKs` category replaced with `SentryOptionsInternal`) — upstream has since made the same native fix independently.
 - Republished under the `@herdwatch/sentry-cordova` npm scope.
+- Upgraded the JS-side Sentry SDK dependency again, from v8 (`@sentry/core@8.55.0`) to v10 (`@sentry/core@10.70.0`), plus `@sentry/cli` (2→3) and `@sentry/wizard` (3→7). `Sentry.getCurrentHub` is gone (removed upstream in v9), `autoSessionTracking` is gone from `CordovaOptions` (was already a no-op here), and the class-based `Sentry.Integrations.*` are replaced by top-level `cordovaIntegration()` / `eventOriginIntegration()` / `sdkInfoIntegration()` factories. Full details in the CHANGELOG's `Unreleased` → `Breaking Changes` section.
+- Bumped the native `sentry-cocoa` dependency again, from 8.58.1 to 9.25.0, and fixed the resulting iOS build break the same way as before (cocoa 9 removed `SentryOptionsInternal` entirely; the bridge now builds `SentryOptions` via `PrivateSentrySDKOnly.optionsWithDictionary:didFailWithError:`). This raises the plugin's **minimum iOS deployment target to 15.0** — consuming apps need `<preference name="deployment-target" value="15.0" />` in their `config.xml`.
+- Bumped the native `sentry-android` dependency from 8.13.0 to 8.52.0 (no code changes needed, same major).
 
 <p align="center">
   <a href="https://sentry.io/?utm_source=github&utm_medium=logo" target="_blank">

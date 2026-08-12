@@ -2,6 +2,30 @@
 
 ## Unreleased
 
+### Breaking Changes
+
+- **Minimum iOS deployment target is now 15.0** (was 11.0), tvOS 15.0, watchOS 8.0, macOS 10.14, following the `sentry-cocoa` v9 upgrade. Apps consuming this plugin must add
+  `<preference name="deployment-target" value="15.0" />` to their `config.xml` (see `sample/config.xml` for an example). Building also now requires **Xcode 16+**.
+- **`cordova` engine floor raised to `>=12.0.0`** and **`cordova-ios` to `>=7.0.0`** (from `>=7.0.0` and `>=4.4.0`), to support the `sentry-cocoa` v9 / iOS 15 requirements above. `cordova-android` is unchanged.
+- **`Sentry.Integrations.*` classes replaced by top-level factory functions**: `Sentry.Integrations.Cordova`, `.EventOrigin`, and `.SdkInfo` (and the `Sentry.Integrations` namespace itself) are removed. Use `Sentry.cordovaIntegration()`, `Sentry.eventOriginIntegration()`, and `Sentry.sdkInfoIntegration()` instead. The wire-level integration `name`s are unchanged, so this is a source-level break only.
+- **`Sentry.getCurrentHub` is removed** (removed upstream in `@sentry/core` v9; this SDK previously re-exported it).
+- **`autoSessionTracking` removed from `CordovaOptions`**. This option had no effect on this SDK since browser release-health tracking has never been wired up here (browser session tracking remains unsupported), so removing it is a no-op for every consumer. `enableAutoSessionTracking` (the Cordova/native-level option) is unaffected.
+- Dev tooling (build/lint/test) now requires **Node ≥20**; the *published* package's runtime floor is unchanged (`@sentry/browser`'s own `>=18`).
+
+### Dependencies
+
+- Bump `@sentry/browser` and `@sentry/core` from `8.55.0` to `10.70.0`.
+  - [migration guide (v8→v9)](https://github.com/getsentry/sentry-javascript/blob/develop/docs/migration/v8-to-v9.md)
+  - [migration guide (v9→v10)](https://github.com/getsentry/sentry-javascript/blob/develop/docs/migration/v9-to-v10.md)
+- Bump `@sentry/cli` from `2.43.1` to `3.6.2`.
+- Bump `@sentry/wizard` from `^3.34.2` to `^7.0.2`.
+- build(ios): Bump `sentry-cocoa` from `8.58.1` to `9.25.0`.
+  - [changelog](https://github.com/getsentry/sentry-cocoa/releases/tag/9.25.0)
+  - [diff](https://github.com/getsentry/sentry-cocoa/compare/8.58.1...9.25.0)
+- build(android): Bump `sentry-android` from `8.13.0` to `8.52.0`.
+  - [changelog](https://github.com/getsentry/sentry-java/blob/main/CHANGELOG.md)
+- Dev tooling: TypeScript 4.9 → 6.0, jest 26 → 30, eslint 7 → 8.57, rollup 2 → 4, and the rest of the `devDependencies` bumped to their compatible maximum (see the PR for the full list).
+
 ### Fixes
 
 - Fixes memory leak on the Native SDK. ([#406](https://github.com/getsentry/sentry-cordova/pull/406))
