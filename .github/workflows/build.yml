@@ -32,7 +32,7 @@ jobs:
         # we use a hash of yarn.lock as our cache key, because if it hasn't changed, our dependencies haven't changed,
         # so no need to reinstall them
         with:
-          node-version: 18 # Specify the Node.js version explicitly
+          node-version: 24 # Specify the Node.js version explicitly
       - name: Compute dependency cache key
         id: compute_lockfile_hash
         run: echo "hash=${{ hashFiles('./yarn.lock') }}" >> "$GITHUB_OUTPUT"
@@ -60,7 +60,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 18
+          node-version: 24
       - name: Check dependency cache
         uses: actions/cache@v4
         with:
@@ -85,7 +85,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 18
+          node-version: 24
       - name: Check dependency cache
         uses: actions/cache@v4
         with:
@@ -120,6 +120,10 @@ jobs:
     steps:
       - name: Check out current commit (${{ github.sha }})
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Show Xcode version
+        # sentry-cocoa 9 needs Xcode 16+; this is just for diagnosability if the runner image's
+        # default Xcode ever falls behind that.
+        run: xcodebuild -version
       - name: Check Carthage build cache
         uses: actions/cache@v4
         id: cache_built_carthage
@@ -145,7 +149,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: 18
+          node-version: 24
       - name: Check dependency cache
         uses: actions/cache@v4
         with:
