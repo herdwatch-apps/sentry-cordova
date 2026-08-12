@@ -8,4 +8,7 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <source-file src="..." target-dir="..." />
+    <!-- Required for sentry-cocoa 9: its prebuilt xcframework needs iOS 15+, and cordova-ios 7's
+         default deployment target is below that. -->
+    <preference name="deployment-target" value="15.0" />
 </widget>

@@ -14,11 +14,20 @@
     <engines>
         <!-- https://issues.apache.org/jira/browse/CB-10239?jql=labels%20%3D%20cordova-8.0.0 -->
         <!-- Requires > 8.0.0 because of scoped npm packages -->
-        <engine name="cordova" version=">=7.0.0" />
+        <!-- Raised to >=12.0.0: cordova-ios 7 (needed for the cocoa 9 / iOS 15 floor below)
+             requires CLI >=12; sample/package.json pins cordova ^12.0.0, the only
+             configuration this plugin is tested against. -->
+        <engine name="cordova" version=">=12.0.0" />
         <!-- Requires > 3.5.0 because of the custom Framework tag for iOS [CB-6698] -->
         <!-- Requires > 4.0.0 because of the Framework tag for Android that uses gradle -->
+        <!-- Not raised as part of the sentry-cocoa 9 / sentry-android 8.52 upgrade: neither
+             sentry-android 8.52's compileSdk/AGP floor nor a suitable cordova-android version
+             was measured in this round, so left as-is rather than guessed (follow-up F4). -->
         <engine name="cordova-android" version=">=3.5.0" />
-        <engine name="cordova-ios" version=">=4.4.0" />
+        <!-- Raised to >=7.0.0: the XCFramework embed="true" packaging needs cordova-ios >=6, and
+             sentry-cocoa 9 needs Xcode 16 + iOS 15, which in practice means cordova-ios 7 (also see
+             the deployment-target preference required in sample/config.xml). -->
+        <engine name="cordova-ios" version=">=7.0.0" />
     </engines>
 
     <js-module src="dist/js/sentry-cordova.bundle.min.js" name="Sentry">
