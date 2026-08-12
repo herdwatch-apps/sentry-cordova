@@ -1,7 +1,7 @@
 import type { BrowserOptions } from '@sentry/browser';
 import { init as browserInit } from '@sentry/browser';
 import { getClient, GLOBAL_OBJ } from '@sentry/core';
-import { Cordova, EventOrigin, SdkInfo } from './integrations';
+import { cordovaIntegration, eventOriginIntegration, sdkInfoIntegration } from './integrations';
 import type { CordovaOptions } from './options';
 import { CordovaScope } from './scope';
 import { makeCordovaTransport } from './transports/cordova';
@@ -62,7 +62,7 @@ export function init(options: Partial<CordovaOptions>): void {
   const client = getClient();
   cordovaScope.setClient(client);
 
-  finalOptions.defaultIntegrations = [new SdkInfo(), new EventOrigin(), new Cordova()];
+  finalOptions.defaultIntegrations = [sdkInfoIntegration(), eventOriginIntegration(), cordovaIntegration()];
 
   if (!options.transport && finalOptions.enableNative) {
     finalOptions.transport = options.transport || makeCordovaTransport;

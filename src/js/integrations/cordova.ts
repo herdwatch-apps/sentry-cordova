@@ -1,25 +1,13 @@
-import type { Event, Integration } from '@sentry/core';
-import { addEventProcessor } from '@sentry/core';
+import type { Event } from '@sentry/core';
+import { defineIntegration } from '@sentry/core';
 import { normalizeData } from '../normalize';
 
-/** Default Breadcrumbs instrumentations */
-export class Cordova implements Integration {
-  /**
-   * @inheritDoc
-   */
-  public static id: string = 'Cordova';
-
-  /**
-   * @inheritDoc
-   */
-  public name: string = Cordova.id;
-
-  /**
-   * @inheritDoc
-   */
-  public setupOnce(): void {
-    addEventProcessor((event: Event) => {
+/** Default Breadcrumbs instrumentation. */
+export const cordovaIntegration = defineIntegration(() => {
+  return {
+    name: 'Cordova',
+    processEvent(event) {
       return normalizeData(event) as Event;
-    });
-  }
-}
+    },
+  };
+});

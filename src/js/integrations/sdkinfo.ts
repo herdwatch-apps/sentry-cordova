@@ -1,5 +1,5 @@
-import type { Integration, SdkInfo as SdkInfoType } from '@sentry/core';
-import { addEventProcessor, getClient } from '@sentry/core';
+import type { SdkInfo as SdkInfoType } from '@sentry/core';
+import { defineIntegration } from '@sentry/core';
 import { SDK_NAME, SDK_VERSION } from '../version';
 
 interface IpPatchedSdkInfo extends SdkInfoType {
@@ -8,32 +8,11 @@ interface IpPatchedSdkInfo extends SdkInfoType {
   };
 }
 
-/** Default SdkInfo instrumentation */
-export class SdkInfo implements Integration {
-  /**
-   * @inheritDoc
-   */
-  public static id: string = 'SdkInfo';
-
-  /**
-   * @inheritDoc
-   */
-  public name: string = SdkInfo.id;
-
-  /**
-   * @inheritDoc
-   */
-  public setupOnce(): void {
-    let defaultPii: boolean | undefined = undefined;
-
-    const client = getClient();
-    if (client) {
-      const options = client.getOptions();
-      // eslint-disable-next-line deprecation/deprecation
-      defaultPii = options.sendDefaultPii;
-    }
-
-    addEventProcessor(async (event) => {
+/** Default SdkInfo instrumentation. */
+export const sdkInfoIntegration = defineIntegration(() => {
+  return {
+    name: 'SdkInfo',
+    async processEvent(event, _hint, client) {
       event.platform = event.platform || 'javascript';
       const sdk = (event.sdk || {}) as IpPatchedSdkInfo;
 
@@ -47,6 +26,9 @@ export class SdkInfo implements Integration {
       ];
       sdk.version = SDK_VERSION;
 
+      // eslint-disable-next-line deprecation/deprecation
+      const defaultPii = client.getOptions().sendDefaultPii;
+
       // Patch missing infer_ip.
       sdk.settings = {
         infer_ip: defaultPii ? 'auto' : 'never',
@@ -57,6 +39,6 @@ export class SdkInfo implements Integration {
       event.sdk = sdk;
 
       return event;
-    });
-  }
-}
+    },
+  };
+});
