@@ -1,4 +1,3 @@
-// eslint-disable-next-line deprecation/deprecation
 import { GLOBAL_OBJ } from '@sentry/core';
 import type { CordovaOptions } from '../options';
 import * as Sdk from '../sdk';
@@ -10,13 +9,12 @@ const optionsTest: {
   current: undefined,
 };
 
-jest.mock('@sentry/core', () => {
-  const core = jest.requireActual('@sentry/core');
+jest.mock('@sentry/browser', () => {
+  const browser = jest.requireActual('@sentry/browser');
 
   return {
-    ...core,
-    initAndBind: jest.fn((_, options) => (optionsTest.current = options)),
-    makeMain: jest.fn(),
+    ...browser,
+    init: jest.fn((options) => (optionsTest.current = options)),
   };
 });
 
@@ -32,7 +30,6 @@ jest.mock('../utils', () => {
 describe('Tests SDK', () => {
   describe('init', () => {
     it('Uses SENTRY_RELEASE environment variable if present.', () => {
-      // eslint-disable-next-line deprecation/deprecation
       const window = GLOBAL_OBJ;
       window.SENTRY_RELEASE = {
         id: 'test-release',
@@ -44,7 +41,6 @@ describe('Tests SDK', () => {
     });
 
     it('User release has precedence over SENTRY_RELEASE', () => {
-      // eslint-disable-next-line deprecation/deprecation
       const window = GLOBAL_OBJ;
       window.SENTRY_RELEASE = {
         id: 'test-release',

@@ -19,11 +19,7 @@ export {
   captureException,
   captureEvent,
   captureMessage,
-  // eslint-disable-next-line deprecation/deprecation
   getCurrentScope,
-  // eslint-disable-next-line deprecation/deprecation
-  getCurrentHub,
-  // eslint-disable-next-line deprecation/deprecation
   Scope,
   setContext,
   setExtra,
@@ -31,7 +27,6 @@ export {
   setTag,
   setTags,
   setUser,
-  // eslint-disable-next-line deprecation/deprecation
   startSpan,
   startSpanManual,
   startInactiveSpan,

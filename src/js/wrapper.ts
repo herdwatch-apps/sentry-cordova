@@ -14,7 +14,7 @@ import type {
   User,
   UserFeedbackItem,
 } from '@sentry/core';
-import { GLOBAL_OBJ, logger, SentryError } from '@sentry/core';
+import { debug, GLOBAL_OBJ, SentryError } from '@sentry/core';
 import type { CordovaOptions } from './options';
 import { CordovaPlatformType } from './types';
 import { getPlatform, processLevel, serializeObject } from './utils';
@@ -45,7 +45,7 @@ export const NATIVE = {
         return false;
       }
       if (!options.dsn) {
-        logger.warn(
+        debug.warn(
           'Warning: No DSN was provided. The Sentry SDK will be disabled. Native SDK will also not be initialized.'
         );
         return false;
@@ -66,7 +66,7 @@ export const NATIVE = {
         .catch(() => {
           this._nativeInitialized = false;
 
-          logger.warn('Warning: Native SDK was not initialized.');
+          debug.warn('Warning: Native SDK was not initialized.');
 
           return false;
         });
@@ -140,7 +140,7 @@ export const NATIVE = {
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, deprecation/deprecation
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const _window = GLOBAL_OBJ as any;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const exec = _window?.Cordova?.exec;
@@ -378,7 +378,9 @@ export const NATIVE = {
     return this.isNativeClientAvailable() && this.SUPPORTS_NATIVE_SCOPE_SYNC.includes(getPlatform());
   },
 
+  // eslint-disable-next-line deprecation/deprecation
   _NativeClientError: new SentryError('Native Client is not available.'),
+  // eslint-disable-next-line deprecation/deprecation
   _DisabledNativeError: new SentryError('Native is disabled'),
 
   enableNative: true,

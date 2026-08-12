@@ -4,7 +4,7 @@ import type { BrowserOptions } from '@sentry/browser';
  * Configuration options for the Sentry Cordova SDK.
  * @see CordovaFrontend for more information.
  */
-export interface CordovaOptions extends Omit<BrowserOptions, 'autoSessionTracking'> {
+export interface CordovaOptions extends BrowserOptions {
   /**
    * Enables crash reporting for native crashes.
    * Defaults to `true`.

@@ -1,6 +1,5 @@
 /* eslint-disable max-lines */
-// import { Severity } from '@sentry/types';
-import { logger } from '@sentry/core';
+import { debug } from '@sentry/core';
 import { NATIVE } from '../wrapper';
 
 declare global {
@@ -45,14 +44,13 @@ describe('Tests Native Wrapper', () => {
     });
 
     test('warns if there is no dsn', async () => {
-      logger.warn = jest.fn();
+      const debugWarnSpy = jest.spyOn(debug, 'warn').mockImplementation();
 
       await NATIVE.startWithOptions({ enableNative: true });
 
       expect(global.Cordova.exec).not.toHaveBeenCalled();
 
-      // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(logger.warn).toHaveBeenLastCalledWith(
+      expect(debugWarnSpy).toHaveBeenLastCalledWith(
         'Warning: No DSN was provided. The Sentry SDK will be disabled. Native SDK will also not be initialized.'
       );
     });

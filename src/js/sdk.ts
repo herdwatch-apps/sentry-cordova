@@ -20,7 +20,7 @@ const DEFAULT_OPTIONS: CordovaOptions = {
  * Inits the SDK
  */
 export function init(options: Partial<CordovaOptions>): void {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, deprecation/deprecation
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const window = GLOBAL_OBJ as { SENTRY_RELEASE?: { id?: string } };
 
   if (options.enableWatchdogTerminationTracking !== null) {
@@ -54,18 +54,15 @@ export function init(options: Partial<CordovaOptions>): void {
     }
   }
 
-  // Initialize a new hub using our scope with native sync
-  // eslint-disable-next-line deprecation/deprecation
+  // CordovaScope exists to sync scope updates (user/tags/breadcrumbs/context) down to the native
+  // SDKs, but nothing currently installs it as the active scope, so native scope sync is inert.
+  // This has been the case since the v7->v8 upgrade removed the `makeMain` call that used to wire
+  // it in. Left in place, uninstalled, as a deliberate no-op -- see follow-up F1.
   const cordovaScope = new CordovaScope();
   const client = getClient();
   cordovaScope.setClient(client);
 
-  finalOptions.defaultIntegrations = [
-    // eslint-disable-next-line deprecation/deprecation
-    new SdkInfo(),
-    new EventOrigin(),
-    new Cordova(),
-  ];
+  finalOptions.defaultIntegrations = [new SdkInfo(), new EventOrigin(), new Cordova()];
 
   if (!options.transport && finalOptions.enableNative) {
     finalOptions.transport = options.transport || makeCordovaTransport;
@@ -73,7 +70,6 @@ export function init(options: Partial<CordovaOptions>): void {
 
   const browserOptions = {
     ...finalOptions,
-    autoSessionTracking: NATIVE.platform === 'browser' && finalOptions.enableAutoSessionTracking,
   } as BrowserOptions;
 
   const mobileOptions = {

@@ -1,5 +1,5 @@
 import type { Event, Integration } from '@sentry/core';
-import { addEventProcessor, getCurrentHub } from '@sentry/core';
+import { addEventProcessor } from '@sentry/core';
 import { normalizeData } from '../normalize';
 
 /** Default Breadcrumbs instrumentations */
@@ -19,12 +19,7 @@ export class Cordova implements Integration {
    */
   public setupOnce(): void {
     addEventProcessor((event: Event) => {
-      // eslint-disable-next-line deprecation/deprecation
-      const self = getCurrentHub().getIntegration(Cordova);
-      if (self) {
-        return normalizeData(event) as Event;
-      }
-      return event;
+      return normalizeData(event) as Event;
     });
   }
 }

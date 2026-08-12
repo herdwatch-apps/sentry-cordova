@@ -1,5 +1,5 @@
+import type { Integration, SdkInfo as SdkInfoType } from '@sentry/core';
 import { addEventProcessor, getClient } from '@sentry/core';
-import type { Integration, SdkInfo as SdkInfoType } from '@sentry/types';
 import { SDK_NAME, SDK_VERSION } from '../version';
 
 interface IpPatchedSdkInfo extends SdkInfoType {
@@ -29,6 +29,7 @@ export class SdkInfo implements Integration {
     const client = getClient();
     if (client) {
       const options = client.getOptions();
+      // eslint-disable-next-line deprecation/deprecation
       defaultPii = options.sendDefaultPii;
     }
 
