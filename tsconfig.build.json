@@ -6,8 +6,9 @@
     "baseUrl": ".",
     "outDir": "dist",
     "rootDir": "src",
+    "ignoreDeprecations": "6.0",
     "lib": [
-      "ES2018",
+      "ES2020",
       "dom"
     ]
   }

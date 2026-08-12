@@ -1,6 +1,5 @@
 import type { Breadcrumb, User } from '@sentry/core';
 import { Scope } from '@sentry/core';
-
 import { NATIVE } from './wrapper';
 
 /**

@@ -1,5 +1,4 @@
 import { addEventProcessor, getClient } from '@sentry/core';
-
 import { SdkInfo } from '../../integrations/sdkinfo';
 import { SDK_NAME, SDK_VERSION } from '../../version';
 

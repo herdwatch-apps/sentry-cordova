@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 // import { Severity } from '@sentry/types';
 import { logger } from '@sentry/core';
-
 import { NATIVE } from '../wrapper';
 
 declare global {
@@ -36,7 +35,7 @@ describe('Tests Native Wrapper', () => {
       await NATIVE.startWithOptions({ dsn: 'test', enableNative: true });
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      expect(global.Cordova.exec).toBeCalledWith(
+      expect(global.Cordova.exec).toHaveBeenCalledWith(
         expect.any(Function),
         expect.any(Function),
         NATIVE.PLUGIN_NAME,
@@ -50,7 +49,7 @@ describe('Tests Native Wrapper', () => {
 
       await NATIVE.startWithOptions({ enableNative: true });
 
-      expect(global.Cordova.exec).not.toBeCalled();
+      expect(global.Cordova.exec).not.toHaveBeenCalled();
 
       // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(logger.warn).toHaveBeenLastCalledWith(
@@ -64,7 +63,7 @@ describe('Tests Native Wrapper', () => {
         enableNative: false,
       });
 
-      expect(global.Cordova.exec).not.toBeCalled();
+      expect(global.Cordova.exec).not.toHaveBeenCalled();
     });
 
     test('does not call native module on browser platform', async () => {
@@ -75,7 +74,7 @@ describe('Tests Native Wrapper', () => {
         enableNative: true,
       });
 
-      expect(global.Cordova.exec).not.toBeCalled();
+      expect(global.Cordova.exec).not.toHaveBeenCalled();
     });
   });
 
@@ -86,7 +85,7 @@ describe('Tests Native Wrapper', () => {
 
       NATIVE.crash();
 
-      expect(global.Cordova.exec).toBeCalledWith(
+      expect(global.Cordova.exec).toHaveBeenCalledWith(
         expect.any(Function),
         expect.any(Function),
         NATIVE.PLUGIN_NAME,
@@ -107,7 +106,7 @@ describe('Tests Native Wrapper', () => {
         unique: 123,
       });
 
-      expect(global.Cordova.exec).toBeCalledWith(
+      expect(global.Cordova.exec).toHaveBeenCalledWith(
         expect.any(Function),
         expect.any(Function),
         NATIVE.PLUGIN_NAME,
@@ -131,7 +130,7 @@ describe('Tests Native Wrapper', () => {
         id: 'Hello',
       });
 
-      expect(global.Cordova.exec).toBeCalledWith(
+      expect(global.Cordova.exec).toHaveBeenCalledWith(
         expect.any(Function),
         expect.any(Function),
         NATIVE.PLUGIN_NAME,

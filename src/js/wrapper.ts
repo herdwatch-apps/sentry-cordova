@@ -12,10 +12,9 @@ import type {
   SessionItem,
   SeverityLevel,
   User,
-  UserFeedbackItem
+  UserFeedbackItem,
 } from '@sentry/core';
 import { GLOBAL_OBJ, logger, SentryError } from '@sentry/core';
-
 import type { CordovaOptions } from './options';
 import { CordovaPlatformType } from './types';
 import { getPlatform, processLevel, serializeObject } from './utils';
@@ -144,7 +143,7 @@ export const NATIVE = {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, deprecation/deprecation
       const _window = GLOBAL_OBJ as any;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const exec = _window && _window.Cordova && _window.Cordova.exec;
+      const exec = _window?.Cordova?.exec;
       if (!exec) {
         reject('Cordova.exec not available');
       } else {

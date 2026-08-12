@@ -1,7 +1,6 @@
 import type { BrowserOptions } from '@sentry/browser';
 import { init as browserInit } from '@sentry/browser';
-import { getClient,GLOBAL_OBJ  } from '@sentry/core';
-
+import { getClient, GLOBAL_OBJ } from '@sentry/core';
 import { Cordova, EventOrigin, SdkInfo } from './integrations';
 import type { CordovaOptions } from './options';
 import { CordovaScope } from './scope';
@@ -9,6 +8,7 @@ import { makeCordovaTransport } from './transports/cordova';
 import { CordovaPlatformType } from './types';
 import { getPlatform } from './utils';
 import { NATIVE } from './wrapper';
+
 const DEFAULT_OPTIONS: CordovaOptions = {
   enableNative: true,
   enableAutoSessionTracking: true,

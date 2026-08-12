@@ -1,6 +1,6 @@
+/// <reference types="cordova" />
 import { WINDOW } from '@sentry/browser';
 import type { SeverityLevel } from '@sentry/core';
-
 import { CordovaPlatformType } from './types';
 
 /**

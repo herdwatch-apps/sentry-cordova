@@ -17,8 +17,7 @@ export function normalizeData(data: any): any {
   if (data.culprit) {
     data.culprit = normalizeUrl(data.culprit, PATH_STRIP_RE);
   }
-  const stacktrace =
-    data.stacktrace || (data.exception && data.exception.values && data.exception.values[0].stacktrace);
+  const stacktrace = data.stacktrace || data.exception?.values?.[0].stacktrace;
   if (stacktrace) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     stacktrace.frames.forEach((frame: any) => {

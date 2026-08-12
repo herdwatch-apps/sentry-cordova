@@ -3,6 +3,7 @@
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["cordova", "jest", "node"]
   }
 }

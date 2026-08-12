@@ -1,6 +1,5 @@
 // eslint-disable-next-line deprecation/deprecation
 import { GLOBAL_OBJ } from '@sentry/core';
-
 import type { CordovaOptions } from '../options';
 import * as Sdk from '../sdk';
 import { getPlatform } from '../utils';
@@ -88,7 +87,7 @@ describe('Tests SDK', () => {
 
         Sdk.init({ ...unexpectedOptions, ...expectedOption });
 
-        expect(optionsTest.current).not.toContain(unexpectedOptions);
+        expect(optionsTest.current).not.toEqual(expect.objectContaining(unexpectedOptions));
         expect(optionsTest.current?.environment).toEqual(expectedOption.environment);
       });
     });

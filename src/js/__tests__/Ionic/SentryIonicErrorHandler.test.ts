@@ -1,5 +1,4 @@
 import * as core from '@sentry/core';
-
 import { withSentryIonicErrorHandler } from '../../Ionic/SentryIonicErrorHandler';
 
 const captureException = jest.spyOn(core, 'captureException');

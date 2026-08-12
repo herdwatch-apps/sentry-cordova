@@ -1,6 +1,5 @@
 import { addEventProcessor, getClient } from '@sentry/core';
-import type { Integration, SdkInfo as SdkInfoType} from '@sentry/types';
-
+import type { Integration, SdkInfo as SdkInfoType } from '@sentry/types';
 import { SDK_NAME, SDK_VERSION } from '../version';
 
 interface IpPatchedSdkInfo extends SdkInfoType {
@@ -25,7 +24,6 @@ export class SdkInfo implements Integration {
    * @inheritDoc
    */
   public setupOnce(): void {
-
     let defaultPii: boolean | undefined = undefined;
 
     const client = getClient();
@@ -40,7 +38,7 @@ export class SdkInfo implements Integration {
 
       sdk.name = sdk.name || SDK_NAME;
       sdk.packages = [
-        ...((event.sdk && event.sdk.packages) || []),
+        ...(event.sdk?.packages || []),
         {
           name: 'npm:sentry-cordova',
           version: SDK_VERSION,
@@ -52,7 +50,7 @@ export class SdkInfo implements Integration {
       sdk.settings = {
         infer_ip: defaultPii ? 'auto' : 'never',
         // purposefully allowing already passed settings to override the default
-        ...sdk.settings
+        ...sdk.settings,
       };
 
       event.sdk = sdk;

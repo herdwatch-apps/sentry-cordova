@@ -82,3 +82,6 @@ sample/yalc.lock
 
 # Sample App
 sample/sentry-sdk/*
+
+# sdlc-core local config
+.sdlc/
