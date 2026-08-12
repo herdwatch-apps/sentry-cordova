@@ -8,28 +8,28 @@
   "main": "index.js",
   "scripts": {
     "plugin:build&publish": "cd .. && yarn build && yalc publish",
-    "plugin:push&install": "yalc push && yalc add sentry-cordova && yarn && rm -rf {platforms,plugins}",
+    "plugin:push&install": "yalc push && yalc add @herdwatch/sentry-cordova && yarn && rm -rf {platforms,plugins}",
     "build": "cordova build",
     "open-xcode": "open ./platforms/ios/HelloSentry.xcworkspace",
     "ios-run": "cordova emulate ios",
     "platforms:add": "cordova platform add ios && cordova platform add android && cordova platform add browser",
     "platforms:remove": "cordova platform rm ios && cordova platform rm android && cordova platform rm browser",
-    "sentry:remove": "cordova plugins remove sentry-cordova",
+    "sentry:remove": "cordova plugins remove @herdwatch/sentry-cordova",
     "reset-ios": "cordova platform rm ios && cordova platform add ios",
-    "reset-sentry-ios": "yarn reset-ios && cordova plugins add .yalc/sentry-cordova"
+    "reset-sentry-ios": "yarn reset-ios && cordova plugins add .yalc/@herdwatch/sentry-cordova"
   },
   "keywords": [
     "ecosystem:cordova"
   ],
   "devDependencies": {
+    "@herdwatch/sentry-cordova": "file:.yalc/@herdwatch/sentry-cordova",
     "cordova-android": "^14.0.0",
     "cordova-browser": "^7.0.0",
-    "cordova-ios": "^7.1.1",
-    "sentry-cordova": "file:.yalc/sentry-cordova"
+    "cordova-ios": "^7.1.1"
   },
   "cordova": {
     "_comment_plugins": {
-      "sentry-cordova": {
+      "@herdwatch/sentry-cordova": {
         "SENTRY_ANDROID_SDK_VERSION": "6.11.0"
       }
     },
@@ -39,10 +39,10 @@
       "android"
     ],
     "plugins_comment": {
-      "sentry-cordova": {}
+      "@herdwatch/sentry-cordova": {}
     },
     "plugins": {
-      "sentry-cordova": {
+      "@herdwatch/sentry-cordova": {
         "SENTRY_ANDROID_SDK_VERSION": "8.52.0"
       }
     }

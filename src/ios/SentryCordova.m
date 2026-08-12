@@ -1,7 +1,6 @@
 #import "SentryCordova.h"
 #import <Sentry/Sentry.h>
 #import <Sentry/PrivateSentrySDKOnly.h>
-#import <Sentry/SentryOptionsInternal.h>
 #import <Cordova/CDVAvailability.h>
 @import Sentry;
 
@@ -88,22 +87,19 @@ NSString * const nativeSdkName = @"sentry.cocoa.cordova";
     // The user could tho initialize the SDK manually and set themselves.
     [mutableOptions removeObjectForKey:@"tracesSampleRate"];
     [mutableOptions removeObjectForKey:@"tracesSampler"];
-    [mutableOptions removeObjectForKey:@"enableTracing"];
 
-    SentryOptions *sentryOptions = [SentryOptionsInternal initWithDict:mutableOptions didFailWithError:errorPointer];
-    if (*errorPointer != nil) {
-        NSLog(@"Failed to create Sentry options.");
-        return nil;
+    // cocoa 9 removed SentryOptions.integrations; the crash handler is a first-class option now,
+    // so inject it into the dictionary before creating the options instead of post-mutating the
+    // (now nonexistent) integrations array.
+    if ([mutableOptions valueForKey:@"enableNativeCrashHandling"] != nil) {
+        mutableOptions[@"enableCrashHandler"] = @([mutableOptions[@"enableNativeCrashHandling"] boolValue]);
     }
 
-    if ([mutableOptions valueForKey:@"enableNativeCrashHandling"] != nil) {
-        BOOL enableNativeCrashHandling = [mutableOptions[@"enableNativeCrashHandling"] boolValue];
-
-        if (!enableNativeCrashHandling) {
-            NSMutableArray *integrations = sentryOptions.integrations.mutableCopy;
-            [integrations removeObject:@"SentryCrashIntegration"];
-            sentryOptions.integrations = integrations;
-        }
+    SentryOptions *sentryOptions = [PrivateSentrySDKOnly optionsWithDictionary:mutableOptions
+                                                             didFailWithError:errorPointer];
+    if (sentryOptions == nil) {
+        NSLog(@"Failed to create Sentry options.");
+        return nil;
     }
 
     // Enable the App start and Frames tracking measurements
