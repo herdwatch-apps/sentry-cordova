@@ -29,12 +29,15 @@ module.exports = function (ctx) {
         fs.unlinkSync(fromProps);
       }
     }
-    return wizard.run({
-      quiet: isPropsFileExists,
-      integration: 'cordova',
-      skipConnect: isPropsFileExists,
-      uninstall: uninstall,
-    });
+    return wizard.run(
+      {
+        quiet: isPropsFileExists,
+        integration: 'cordova',
+        skipConnect: isPropsFileExists,
+        uninstall: uninstall,
+      },
+      { telemetryEnabled: false }
+    );
   } else {
     console.error('***********************************************');
     console.error('Sentry - Warning');

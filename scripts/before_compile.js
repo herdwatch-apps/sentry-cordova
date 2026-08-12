@@ -1,6 +1,6 @@
 module.exports = function (ctx) {
   console.log(`Sentry: running ${ctx.hook} - set SENTRY_SKIP_AUTO_RELEASE=true to skip this`);
-  const SentryCli = require('@sentry/cli');
+  const { SentryCli } = require('@sentry/cli');
   const path = require('path');
   const fs = require('fs');
   const crypto = require('crypto');
